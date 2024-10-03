@@ -17,12 +17,18 @@
     <div class="window-body">
       <div class="window-body">
         <menu role="tablist" class="multirows">
-          <li role="tab"><a href="#tabs">Character Animations</a></li>
-          <li role="tab"><a href="#tabs">Special Effects</a></li>
+          <li role="tab"><a href="#tabs" show="ca">Character Animations</a></li>
+          <li role="tab"><a href="#tabs" show="se">Special Effects</a></li>
         </menu>
-        <div class="window" role="tabpanel">
+        <div class="window" role="tabpanel" id="ca">
           <div class="window-body">
             <img src="images/tvaVDQA.gif">
+          </div>
+        </div>
+        <div class="window" role="tabpanel" id="se">
+          <div class="window-body">
+            <img src="images/1l9MD6G.gif">
+            <img src="images/BjCcOJr.gif">
           </div>
         </div>
       </div>
@@ -41,3 +47,33 @@
   </div>
 </body>
 </html>
+
+<script>
+  // Get all the list items in the menu
+  const tabs = document.querySelectorAll('menu li a');
+
+  // Add a click event listener for each tab
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      // Get the value of the 'show' attribute
+      const showId = tab.getAttribute('show');
+
+      // Hide all windows first
+      document.querySelectorAll('.window[role="tabpanel"]').forEach(window => {
+        window.style.display = 'none';
+      });
+
+      // Show the selected window
+      document.getElementById(showId).style.display = 'block';
+    });
+  });
+
+  // Initially hide all windows except the first one
+  document.querySelectorAll('.window[role="tabpanel"]').forEach((window, index) => {
+    if (index !== 0) {
+      window.style.display = 'none';
+    }
+  });
+</script>
