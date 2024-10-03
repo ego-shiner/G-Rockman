@@ -15,21 +15,19 @@
       </div>
     </div>
     <div class="window-body">
-      <div class="window-body">
-        <menu role="tablist" class="multirows">
-          <li role="tab"><a href="#tabs" show="ca">Character Animations</a></li>
-          <li role="tab"><a href="#tabs" show="se">Special Effects</a></li>
-        </menu>
-        <div class="window" role="tabpanel" id="ca">
-          <div class="window-body">
-            <img src="images/tvaVDQA.gif">
-          </div>
+      <menu role="tablist" class="multirows">
+        <li role="tab"><a href="#tabs" show="1-character-animations">Character Animations</a></li>
+        <li role="tab"><a href="#tabs" show="1-special-effects">Special Effects</a></li>
+      </menu>
+      <div class="window" role="tabpanel" id="1-character-animations">
+        <div class="window-body">
+          <img src="images/tvaVDQA.gif">
         </div>
-        <div class="window" role="tabpanel" id="se">
-          <div class="window-body">
-            <img src="images/1l9MD6G.gif">
-            <img src="images/BjCcOJr.gif">
-          </div>
+      </div>
+      <div class="window" role="tabpanel" id="1-special-effects">
+        <div class="window-body">
+          <img src="images/1l9MD6G.gif">
+          <img src="images/BjCcOJr.gif">
         </div>
       </div>
     </div>
@@ -41,39 +39,62 @@
       </div>
     </div>
     <div class="window-body">
-      <img src="images/1l9MD6G.gif">
-      <img src="images/BjCcOJr.gif">
+      <menu role="tablist" class="multirows">
+        <li role="tab"><a href="#tabs" show="2-character-animations">Character Animations</a></li>
+        <li role="tab"><a href="#tabs" show="2-special-effects">Special Effects</a></li>
+      </menu>
+      <div class="window" role="tabpanel" id="2-character-animations">
+        <div class="window-body">
+          <img src="images/1l9MD6G.gif">
+          <img src="images/BjCcOJr.gif">
+        </div>
+      </div>
+      <div class="window" role="tabpanel" id="2-special-effects">
+        <div class="window-body">
+          <img src="images/tvaVDQA.gif">
+        </div>
+      </div>
     </div>
   </div>
 </body>
 </html>
 
 <script>
-  // Get all the list items in the menu
-  const tabs = document.querySelectorAll('menu li a');
+  function generate_tab_click_handlers(outerWindow) {
+    const tabs = outerWindow.querySelectorAll('menu li a');
 
-  // Add a click event listener for each tab
-  tabs.forEach(tab => {
-    tab.addEventListener('click', function(event) {
-      event.preventDefault();
+    // Add a click event listener for each tab
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function(event) {
+        event.preventDefault();
 
-      // Get the value of the 'show' attribute
-      const showId = tab.getAttribute('show');
+        // Get the value of the 'show' attribute
+        const showId = tab.getAttribute('show');
 
-      // Hide all windows first
-      document.querySelectorAll('.window[role="tabpanel"]').forEach(window => {
-        window.style.display = 'none';
+        // Hide all windows first
+        outerWindow.querySelectorAll('.window[role="tabpanel"]').forEach(window => {
+          window.style.display = 'none';
+        });
+
+        // Show the selected window
+        document.getElementById(showId).style.display = 'block';
       });
+    });
+  }
 
-      // Show the selected window
-      document.getElementById(showId).style.display = 'block';
+  // Initially hide all windows except the first one
+  // Outer loop: Iterate over .window divs that are children of the body
+  document.querySelectorAll('body > .window').forEach((outerWindow) => {
+
+    // Inner loop: Iterate over .window divs with role="tabpanel"
+    outerWindow.querySelectorAll('.window[role="tabpanel"]').forEach((innerWindow, index) => {
+      // Hide all except the first one
+      if (index !== 0) {
+        innerWindow.style.display = 'none';
+      }
+      generate_tab_click_handlers(outerWindow);
+
     });
   });
 
-  // Initially hide all windows except the first one
-  document.querySelectorAll('.window[role="tabpanel"]').forEach((window, index) => {
-    if (index !== 0) {
-      window.style.display = 'none';
-    }
-  });
 </script>
