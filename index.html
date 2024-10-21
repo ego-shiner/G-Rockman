@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="https://unpkg.com/98.css" />
 </head>
-
 <body>
+
 
   <div class="window" style="margin: 32px; width: 400px;">
     <div class="title-bar">
@@ -56,6 +56,19 @@
       </div>
     </div>
   </div>
+  <div class="window" style="margin: 32px; width: 250px;">
+    <div class="title-bar">
+      <div class="title-bar-text">
+        Do you like these sprites?
+      </div>
+    </div>
+    <menu role="tablist" class="multirows">
+      <li role="tab"><a href="#tabs" show="2-character-animations">Character Animations</a></li>
+      <li role="tab"><a href="#tabs" show="2-special-effects">Special Effects</a></li>
+    </menu>
+      <div class="window-body insert-images" id="tacticsGifsCharacters">
+      </div>
+  </div>
 </body>
 </html>
 
@@ -95,6 +108,55 @@
       generate_tab_click_handlers(outerWindow);
 
     });
+  });
+
+  const imageSources = {
+    'tacticsGifsCharacters': [
+        { filename: 'images/Tacticsgifs/Alchemist attack.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Alchemist damage.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Alchemist Dodge.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Alchemist flourish.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Alchemist magic.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Bubble.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Corsair attack.gif', scale: 0.25 },
+        { filename: 'images/Tacticsgifs/Corsair magic.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Druid attack.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Druid magic.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/fireball.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Hitspark.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Knight attack.gif', scale: 0.25 },
+        { filename: 'images/Tacticsgifs/Knight damage.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Knight Dodge.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Knight magic.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Mesmer attack.gif', scale: 0.25 },
+        { filename: 'images/Tacticsgifs/Mesmer damage.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Mesmer dodge.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Mesmer magic.gif', scale: 1 }
+      ]
+  };
+
+  // Select all div elements with the class 'insert-images'
+  const divs = document.querySelectorAll('div.insert-images');
+
+  // Iterate through each selected div
+  divs.forEach(div => {
+    // Get the id of the div
+    const id = div.id;
+
+    // Check if there is a corresponding list of image sources
+    if (imageSources[id]) {
+      // Iterate through the list of image sources
+      imageSources[id].forEach(src => {
+        // Create an img element
+        const img = document.createElement('img');
+        // Set the src attribute of the img element
+        img.src = src.filename;
+        img.onload = () => {
+          img.width = img.naturalWidth * src.scale;
+        };        // Append the img element to the div
+        div.appendChild(img);
+      });
+    }
   });
 
 </script>
