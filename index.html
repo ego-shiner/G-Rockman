@@ -15,17 +15,17 @@
         Do you like these sprites?
       </div>
     </div>
-    <div class=""window-body">
+    <div class="window-body">
       <menu role="tablist" class="multirows">
         <li role="tab" aria-selected="true"><a href="#tabs" show="2-character-animations">Character Animations</a></li>
         <li role="tab"><a href="#tabs" show="2-character-animations">Backgrounds</a></li>
       </menu>
-    </div>
-    <div role="tabpanel" class="window insert-images">
-      <div class="insert-images centered" style="max-width: 600px;" id="tacticsGifsCharacters-1"></div>
-      <div class="insert-images centered" style="max-width: 600px;" id="tacticsGifsCharacters-2"></div>
-      <div class="insert-images centered" style="max-width: 600px;" id="tacticsGifsCharacters-3"></div>
-      <div class="insert-images centered" style="max-width: 600px;" id="tacticsGifsCharacters-4"></div>
+      <div role="tabpanel" class="window" id="2-character-animations">
+        <div class="insert-images centered" style="max-width: 600px;" id="tacticsGifsCharacters-1"></div>
+        <div class="insert-images centered" style="max-width: 600px;" id="tacticsGifsCharacters-2"></div>
+        <div class="insert-images centered" style="max-width: 600px;" id="tacticsGifsCharacters-3"></div>
+        <div class="insert-images centered" style="max-width: 600px;" id="tacticsGifsCharacters-4"></div>
+      </div>
     </div>
   </div>
   <div class="window" style="margin: 32px;">
@@ -34,10 +34,17 @@
         Do you like these WILDFIRE sprites?
       </div>
     </div>
-    <menu role="tablist" class="multirows">
-      <li role="tab"><a href="#tabs" show="2-character-animations">Character Animations</a></li>
-    </menu>
-    <div role="tabpanel" class="window-body insert-images centered" style="width: 800px;" id="Rhiangifs">
+    <div class="window-body">
+      <menu role="tablist" class="multirows">
+        <li role="tab" aria-selected="true"><a href="#tabs" show="show-Rhiangifs">Character Animations</a></li>
+        <li role="tab"><a href="#tabs" show="show-something-else">Backgrounds</a></li>
+      </menu>
+      <div role="tabpanel" class="window" id="show-Rhiangifs">
+        <div class="insert-images centered" style="max-width: 600px;" id="Rhiangifs"></div>
+      </div>
+      <div role="tabpanel" class="window" id="show-something-else">
+        <div class="insert-images centered" style="max-width: 600px;" id="drivenOut-1"></div>
+      </div>
     </div>
   </div>
   <div class="window" style="margin: 32px;">
@@ -46,12 +53,14 @@
         Do you like these Driven Out sprites?
       </div>
     </div>
-    <menu role="tablist" class="multirows">
-      <li role="tab"><a href="#tabs" show="2-character-animations">Character Animations</a></li>
-    </menu>
-    <div role="tabpanel" class="window-body">
-      <div class="insert-images centered" style="max-width: 600px;" id="drivenOut-1"></div>
-      <div class="insert-images centered" style="max-width: 900px;" id="drivenOut-3"></div>
+    <div class="window-body">
+      <menu role="tablist" class="multirows">
+        <li role="tab" aria-selected="true"><a href="#tabs" show="2-character-animations">Character Animations</a></li>
+      </menu>
+      <div role="tabpanel" class="window">
+        <div class="insert-images centered" style="max-width: 600px;" id="drivenOut-1"></div>
+        <div class="insert-images centered" style="max-width: 900px;" id="drivenOut-3"></div>
+      </div>
     </div>
   </div>
   <div class="window" style="margin: 32px;">
@@ -60,10 +69,13 @@
         Do you like these Original sprites?
       </div>
     </div>
-    <menu role="tablist" class="multirows">
-      <li role="tab"><a href="#tabs" show="2-character-animations">Character Animations</a></li>
-    </menu>
-    <div role="tabpanel" class="window-body insert-images" id="origs">
+    <div class="window-body">
+      <menu role="tablist" class="multirows">
+        <li role="tab" aria-selected="true"><a href="#tabs" show="2-character-animations">Character Animations</a></li>
+      </menu>
+      <div role="tabpanel" class="window">
+        <div class="insert-images centered" style="max-width: 600px;" id="origs"></div>
+      </div>
     </div>
   </div>
   <div class="window" style="margin: 32px;">
@@ -72,10 +84,12 @@
         Do you like these Transfigured Night sprites?
       </div>
     </div>
-    <menu role="tablist" class="multirows">
-      <li role="tab"><a href="#tabs" show="2-character-animations">Character Animations</a></li>
-    </menu>
-    <div role="tabpanel" class="window-body insert-images" id="transfiguredNight">
+    <div class="window-body">
+      <menu role="tablist" class="multirows">
+        <li role="tab" aria-selected="true"><a href="#tabs" show="2-character-animations">Character Animations</a></li>
+      </menu>
+      <div role="tabpanel" class="window">
+        <div class="insert-images centered" style="max-width: 600px;" id="transfiguredNight"></div>
     </div>
   </div>
 </body>
@@ -83,15 +97,17 @@
 
 <script>
   function generate_tab_click_handlers(outerWindow) {
-    const tabs = outerWindow.querySelectorAll('menu li a');
+    const tabs = outerWindow.querySelectorAll('menu li[role="tab"]');
 
     // Add a click event listener for each tab
     tabs.forEach(tab => {
-      tab.addEventListener('click', function(event) {
+      // get the a element inside the tab
+      const a = tab.querySelector('a');
+      a.addEventListener('click', function(event) {
         event.preventDefault();
 
         // Get the value of the 'show' attribute
-        const showId = tab.getAttribute('show');
+        const showId = a.getAttribute('show');
 
         // Hide all windows first
         outerWindow.querySelectorAll('.window[role="tabpanel"]').forEach(window => {
@@ -100,6 +116,12 @@
 
         // Show the selected window
         document.getElementById(showId).style.display = 'block';
+
+        // set the aria-selected attribute for the selected tab
+        tabs.forEach(tab => {
+          tab.setAttribute('aria-selected', 'false');
+        });
+        tab.setAttribute('aria-selected', 'true');
       });
     });
   }
@@ -128,7 +150,7 @@
         { filename: 'images/Tacticsgifs/Alchemist magic.gif', scale: 1 },
         { filename: 'images/Tacticsgifs/Corsair attack.gif', scale: 0.25 },
         { filename: 'images/Tacticsgifs/Corsair magic.gif', scale: 1 },
-        { filename: 'images/Tacticsgifs/Druid attack.gif', scale: 1 },
+        // { filename: 'images/Tacticsgifs/Druid attack.gif', scale: 1 },
         { filename: 'images/Tacticsgifs/Druid magic.gif', scale: 1 },
         { filename: 'images/Tacticsgifs/Knight attack.gif', scale: 0.25 },
         { filename: 'images/Tacticsgifs/Knight damage.gif', scale: 1 },
@@ -182,7 +204,7 @@
         { filename: 'images/origs/l7tF8O6.gif', scale: 1 },
         { filename: 'images/origs/M4zhlZx.gif', scale: 1 },
         { filename: 'images/origs/nnKXRmu.gif', scale: 1 },
-        { filename: 'images/origs/PJf8nXk.gif', scale: 1 },
+        { filename: 'images/origs/PJf8nXk.gif', scale: 0.25 },
         { filename: 'images/origs/QhckgKv.gif', scale: 1 },
         { filename: 'images/origs/qhWB6VF.gif', scale: 1 },
         { filename: 'images/origs/qUQ6Okr.gif', scale: 1 },
