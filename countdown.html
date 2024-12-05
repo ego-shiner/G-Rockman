@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Time</title>
+    <style>
+        html, body {
+            overflow: hidden; /* Prevent scroll bars */
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Times New Roman', Times, serif;
+            position: relative;
+            overflow: hidden;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 400%;
+            height: 400%;
+            background: linear-gradient(270deg, #ff0000, #00ff00, #0000ff, #ffff00, #ff00ff, #00ffff);
+            background-size: 1200% 1200%;
+            animation: gradient 10s ease infinite, spin 20s linear infinite;
+            z-index: -1;
+        }
+        #clock {
+            font-size: 10em;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: black;
+        }
+
+        .scrolling-text {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            box-sizing: border-box;
+            animation: scroll-left 5s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(100vw);
+            }
+            100% {
+                transform: translateX(-100vw);
+            }
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg) scale(2);
+            }
+            100% {
+                transform: rotate(360deg) scale(2);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="clock">
+        <div id="days"></div>
+        <div id="minutes"></div>
+        <div class="scrolling-text">until...</div>
+    </div>
+
+    <script>
+        const targetDate = new Date('2024-12-25T00:00:00');
+        function updateTime() {
+            const now = new Date();
+            const diff = targetDate - now;
+
+           const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+            const hours = String(Math.floor((diff % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000))).padStart(2, '0');
+            const minutes = String(Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000))).padStart(2, '0');
+            const seconds = String(Math.floor((diff % (60 * 1000)) / 1000)).padStart(2, '0');
+            document.getElementById('days').textContent = `${days} days`;
+            document.getElementById('minutes').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>
