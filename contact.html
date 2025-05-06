@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kingdom of Night Preview Showcase</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="https://unpkg.com/98.css" />
+  <link rel="stylesheet" href="normalize.css" />
+  <link rel="stylesheet" href="awesome.css" />
+  <style>
+    .hide-message {
+        display: none;
+    }
+    .not-visible {
+        visibility: hidden;
+    }
+  </style>
+</head>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<body>
+    <div class="window" style="margin: 32px; margin-top: 25px;"
+    x-data="{
+        hideMessage: true,
+        complete: false,
+        message: 'UNSET',
+        statusMessage: 'Contact process beginning...',
+
+        async make_contact() {
+          var body = new FormData();
+
+          body.append('nav', 'Make Contact');
+          body.append('Email', document.getElementsByName('Email')[0].value);
+          body.append('Comments', document.getElementsByName('Comments')[0].value);
+
+          try {
+            var response = await fetch('https://creativebridges.ca/contact_solypsis.php', {
+              method: 'POST',
+              body,
+            });
+          } catch (e) {
+            this.message = 'Failure - if you know someone here please let them know by another means.';
+            this.hideMessage = false;
+            this.statusMessage = 'Contact process failed';
+            return;
+          }
+
+          if (response.status === 200) {
+            json = await(response.json());
+            if (json['message'] === 'SUCCESS') {
+              document.getElementsByName('Email')[0].value = '';
+              document.getElementsByName('Comments')[0].value = '';
+              this.message = 'Contact request successful, we will get back to you. thanks!';
+              this.hideMessage = false;
+              this.statusMessage = 'Contact process complete';
+              this.complete = true;
+              return;
+            }
+        }
+
+        this.message = 'Failure - if you know someone here please let them know by another means.';
+        this.hideMessage = false;
+          },
+      }">
+        <div class="title-bar">
+          <div class="title-bar-text">
+            <span x-text="statusMessage"></span>
+          </div>
+        </div>
+        <h2 style="padding  : 5px;">
+            Contact us electronically
+        </h2>
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 8px; margin: 5px;">
+            <label style="text-align: right;" :class="{'not-visible': complete}">Email:</label>
+            <input name="Email" size="40" :class="{'not-visible': complete}">
+
+            <label style="text-align: right;" :class="{'not-visible': complete}">Comments:</label>
+            <textarea name="Comments" rows="7" cols="34" :class="{'not-visible': complete}"></textarea>
+
+            <div></div>
+            <div :class="{'hide-message': !hideMessage}">
+            <input name="nav" type="submit" value="Make Contact" @click="make_contact">
+            </div>
+
+            <div></div>
+            <div :class="{'hide-message': hideMessage}" style="grid-column: span 2;">
+                <span x-text="message" style="display: block; text-align: center;"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

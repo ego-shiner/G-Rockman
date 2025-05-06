@@ -1,4 +1,29 @@
 .centered {
     margin-left: auto;
     margin-right: auto;
-  }
+}
+
+body {
+  margin: 0;
+  background-color: #008080;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.inquiries {
+  /* margin-left: 32px; */
+  font: italic 26px Verdana;
+  text-decoration: none;
+  align-self: flex-end;
+  margin-right: 10px;
+  margin-top: -20px;
+  z-index: 1000;
+  color: #a0a0a0
+}
+
+.inquiries svg {
+  z-index: 1000;
+  color: #a0a0a0
+}
