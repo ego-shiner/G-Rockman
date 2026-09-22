@@ -165,7 +165,7 @@
         // { filename: 'images/Tacticsgifs/Druid attack.gif', scale: 1 },
         { filename: 'images/Tacticsgifs/Druid magic.gif', scale: 1 },
         { filename: 'images/Tacticsgifs/Knight attack.gif', scale: 0.25 },
-        { filename: 'images/Tacticsgifs/Knight damage.gif', scale: 1 },
+        { filename: 'images/Tacticsgifs/Knight damage.gif', scale: 1, style:"-100px" },
         { filename: 'images/Tacticsgifs/Knight Dodge.gif', scale: 1 },
         { filename: 'images/Tacticsgifs/Knight magic.gif', scale: 1 },
         ],
@@ -284,6 +284,7 @@
         const img = document.createElement('img');
         // Set the src attribute of the img element
         img.src = src.filename;
+        if(src.style)img.style=src.style
         img.onload = () => {
           img.width = img.naturalWidth * src.scale;
         };        // Append the img element to the div
@@ -292,6 +293,8 @@
     }
   });
 
+
+  
 </script>
 <style type="text/css">    
         img {
